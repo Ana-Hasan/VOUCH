@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Review Detector</title>
+   <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fake Review Detector</h1>
+
+        <textarea
+            id="review"
+            placeholder="Paste or type a review here..."
+        ></textarea>
+
+        <button onclick="analyzeReview()">Analyze Review</button>
+
+        <p id="result"></p>
+        <h2>Review History</h2>
+        <button onclick="clearHistory()">Clear History</button>
+
+<div id="history"></div>
+
+
+
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
