@@ -1,7 +1,12 @@
 function analyzeReview() {
     const reviewText = document.getElementById("review").value;
 
-    fetch("http://127.0.0.1:5000/analyze", {
+    if (!reviewText.trim()) {
+        alert("Please enter a review");
+        return;
+    }
+
+    fetch("/analyze", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -10,18 +15,19 @@ function analyzeReview() {
     })
     .then(response => response.json())
     .then(data => {
-    const resultEl = document.getElementById("result");
+        const resultEl = document.getElementById("result");
 
-    resultEl.innerText =
-        `Result: ${data.label} (Score: ${data.score.toFixed(2)})`;
+        resultEl.innerText =
+            `Result: ${data.label} (Score: ${data.score.toFixed(2)})`;
 
-    if (data.label.toLowerCase().includes("fake")) {
-        resultEl.className = "fake";
-    } else {
-        resultEl.className = "genuine";
-    }
-})
+        if (data.label.toLowerCase().includes("fake")) {
+            resultEl.className = "fake";
+        } else {
+            resultEl.className = "genuine";
+        }
 
+        loadHistory();
+    });
 }
 
 function loadHistory() {
@@ -42,12 +48,9 @@ function loadHistory() {
 
 function clearHistory() {
     fetch("/clear", { method: "POST" })
-        .then(response => response.json())
         .then(() => {
             loadHistory();
         });
 }
 
-
-loadHistory();
 loadHistory();
