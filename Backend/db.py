@@ -1,11 +1,16 @@
 import sqlite3
 import os
 
-DB_PATH = os.path.join("Database", "reviews.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_DIR = os.path.join(BASE_DIR, "..", "Database")
+os.makedirs(DB_DIR, exist_ok=True)
+
+DB_PATH = os.path.join(DB_DIR, "reviews.db")
+
 
 def get_connection():
-    conn = sqlite3.connect(DB_PATH)
-    return conn
+    return sqlite3.connect(DB_PATH)
+
 
 def create_table():
     conn = get_connection()
@@ -23,6 +28,7 @@ def create_table():
     conn.commit()
     conn.close()
 
+
 def insert_review(review_text, score, label):
     conn = get_connection()
     cursor = conn.cursor()
@@ -35,6 +41,7 @@ def insert_review(review_text, score, label):
     conn.commit()
     conn.close()
 
+
 def get_all_reviews():
     conn = get_connection()
     cursor = conn.cursor()
@@ -42,10 +49,11 @@ def get_all_reviews():
     cursor.execute(
         "SELECT review_text, score, label FROM reviews ORDER BY id DESC"
     )
-    rows = cursor.fetchall()
 
+    rows = cursor.fetchall()
     conn.close()
     return rows
+
 
 def clear_reviews():
     conn = get_connection()
